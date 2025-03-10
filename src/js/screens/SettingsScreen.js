@@ -4,149 +4,140 @@ import { useGameContext } from '../context/GameContext';
 const SettingsScreen = () => {
   const { gameState, changeDifficulty, player } = useGameContext();
   const [playerName, setPlayerName] = useState(player.name);
-  const [formChanged, setFormChanged] = useState(false);
-  
-  const difficultyOptions = [
-    { id: 'easy', label: 'Easy', description: 'More hints available, simpler problems' },
-    { id: 'normal', label: 'Normal', description: 'Balanced difficulty for high school students' },
-    { id: 'hard', label: 'Hard', description: 'Fewer hints, more complex problems' }
-  ];
-  
-  const handleNameChange = (e) => {
-    setPlayerName(e.target.value);
-    setFormChanged(true);
-  };
+  const [showSaveMessage, setShowSaveMessage] = useState(false);
   
   const handleDifficultyChange = (difficulty) => {
     changeDifficulty(difficulty);
-    setFormChanged(true);
   };
   
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // In a real app, this would update player name in state
-    // For demo purposes, we're just confirming changes
-    alert('Settings updated successfully!');
-    setFormChanged(false);
+  const handleNameChange = (e) => {
+    setPlayerName(e.target.value);
+  };
+  
+  const handleSaveSettings = () => {
+    // In a real app, we would persist these settings
+    // For now, we'll just show a save confirmation message
+    setShowSaveMessage(true);
+    setTimeout(() => {
+      setShowSaveMessage(false);
+    }, 3000);
   };
   
   return (
     <div className="settings-screen">
       <h1>Game Settings</h1>
       
-      <form onSubmit={handleSubmit}>
-        <div className="settings-section">
-          <h2>Profile Settings</h2>
-          
-          <div className="form-group">
-            <label htmlFor="player-name">Player Name</label>
-            <input
-              type="text"
-              id="player-name"
-              value={playerName}
-              onChange={handleNameChange}
-              className="form-control"
-            />
-          </div>
-        </div>
+      <div className="settings-section">
+        <h2>Player Settings</h2>
         
-        <div className="settings-section">
-          <h2>Game Difficulty</h2>
-          <p>Adjust the difficulty of puzzles and challenges.</p>
-          
-          <div className="difficulty-options">
-            {difficultyOptions.map(option => (
-              <div 
-                key={option.id}
-                className={`difficulty-option ${gameState.difficulty === option.id ? 'selected' : ''}`}
-                onClick={() => handleDifficultyChange(option.id)}
-              >
-                <h3>{option.label}</h3>
-                <p>{option.description}</p>
-              </div>
-            ))}
-          </div>
+        <div className="setting">
+          <label htmlFor="playerName">Player Name:</label>
+          <input
+            type="text"
+            id="playerName"
+            value={playerName}
+            onChange={handleNameChange}
+            maxLength={20}
+          />
         </div>
+      </div>
+      
+      <div className="settings-section">
+        <h2>Game Difficulty</h2>
         
-        <div className="settings-section">
-          <h2>Audio Settings</h2>
-          
-          <div className="form-group">
-            <label htmlFor="music-volume">Music Volume</label>
-            <input
-              type="range"
-              id="music-volume"
-              min="0"
-              max="100"
-              defaultValue="70"
-              className="form-control"
-              onChange={() => setFormChanged(true)}
-            />
-          </div>
-          
-          <div className="form-group">
-            <label htmlFor="effects-volume">Sound Effects</label>
-            <input
-              type="range"
-              id="effects-volume"
-              min="0"
-              max="100"
-              defaultValue="80"
-              className="form-control"
-              onChange={() => setFormChanged(true)}
-            />
-          </div>
-        </div>
-        
-        <div className="settings-section">
-          <h2>Accessibility</h2>
-          
-          <div className="form-group checkbox">
-            <input 
-              type="checkbox" 
-              id="high-contrast" 
-              onChange={() => setFormChanged(true)}
-            />
-            <label htmlFor="high-contrast">High Contrast Mode</label>
-          </div>
-          
-          <div className="form-group checkbox">
-            <input 
-              type="checkbox" 
-              id="large-text" 
-              onChange={() => setFormChanged(true)}
-            />
-            <label htmlFor="large-text">Large Text</label>
-          </div>
-          
-          <div className="form-group checkbox">
-            <input 
-              type="checkbox" 
-              id="screen-reader" 
-              onChange={() => setFormChanged(true)}
-            />
-            <label htmlFor="screen-reader">Screen Reader Compatibility</label>
-          </div>
-        </div>
-        
-        <div className="settings-actions">
-          <button 
-            type="submit" 
-            className="save-button"
-            disabled={!formChanged}
+        <div className="difficulty-options">
+          <button
+            className={`difficulty-btn ${gameState.difficulty === 'easy' ? 'active' : ''}`}
+            onClick={() => handleDifficultyChange('easy')}
           >
-            Save Changes
+            Easy
           </button>
-          
-          <button 
-            type="button" 
-            className="reset-button"
-            onClick={() => alert('This would reset all game progress in a real application.')}
+          <button
+            className={`difficulty-btn ${gameState.difficulty === 'normal' ? 'active' : ''}`}
+            onClick={() => handleDifficultyChange('normal')}
           >
-            Reset Game Progress
+            Normal
+          </button>
+          <button
+            className={`difficulty-btn ${gameState.difficulty === 'hard' ? 'active' : ''}`}
+            onClick={() => handleDifficultyChange('hard')}
+          >
+            Hard
           </button>
         </div>
-      </form>
+        
+        <div className="difficulty-description">
+          {gameState.difficulty === 'easy' && (
+            <p>Easy mode provides more hints and simpler challenges. Great for beginners or younger students.</p>
+          )}
+          {gameState.difficulty === 'normal' && (
+            <p>Normal mode balances challenge and accessibility. Recommended for most high school students.</p>
+          )}
+          {gameState.difficulty === 'hard' && (
+            <p>Hard mode features complex problems and fewer hints. Perfect for advanced students or those seeking a challenge.</p>
+          )}
+        </div>
+      </div>
+      
+      <div className="settings-section">
+        <h2>Audio Settings</h2>
+        
+        <div className="setting">
+          <label htmlFor="musicVolume">Music Volume:</label>
+          <input type="range" id="musicVolume" min="0" max="100" defaultValue="70" />
+        </div>
+        
+        <div className="setting">
+          <label htmlFor="sfxVolume">Sound Effects Volume:</label>
+          <input type="range" id="sfxVolume" min="0" max="100" defaultValue="80" />
+        </div>
+        
+        <div className="setting checkbox">
+          <input type="checkbox" id="muteAll" />
+          <label htmlFor="muteAll">Mute All Sound</label>
+        </div>
+      </div>
+      
+      <div className="settings-section">
+        <h2>Visual Settings</h2>
+        
+        <div className="setting checkbox">
+          <input type="checkbox" id="highContrast" />
+          <label htmlFor="highContrast">High Contrast Mode</label>
+        </div>
+        
+        <div className="setting checkbox">
+          <input type="checkbox" id="largeText" />
+          <label htmlFor="largeText">Large Text</label>
+        </div>
+        
+        <div className="setting checkbox">
+          <input type="checkbox" id="reducedAnimations" />
+          <label htmlFor="reducedAnimations">Reduced Animations</label>
+        </div>
+      </div>
+      
+      <div className="settings-section">
+        <h2>Game Data</h2>
+        
+        <div className="data-actions">
+          <button className="btn btn-secondary">Export Progress</button>
+          <button className="btn btn-secondary">Import Progress</button>
+          <button className="btn btn-danger">Reset Progress</button>
+        </div>
+      </div>
+      
+      <div className="settings-actions">
+        <button className="btn btn-primary" onClick={handleSaveSettings}>
+          Save Settings
+        </button>
+      </div>
+      
+      {showSaveMessage && (
+        <div className="save-message success">
+          Settings saved successfully!
+        </div>
+      )}
     </div>
   );
 };
