@@ -1,0 +1,44 @@
+{
+  "name": "mathquest-adventures",
+  "version": "0.1.0",
+  "description": "An interactive educational game to help students learn calculus",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel src/index.html",
+    "build": "parcel build src/index.html",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VijayaRamesh1/mathquest-adventures.git"
+  },
+  "keywords": [
+    "education",
+    "math",
+    "calculus",
+    "game",
+    "learning"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/VijayaRamesh1/mathquest-adventures/issues"
+  },
+  "homepage": "https://github.com/VijayaRamesh1/mathquest-adventures#readme",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "three": "^0.159.0",
+    "mathjax": "^3.2.2",
+    "redux": "^5.0.0",
+    "react-redux": "^9.0.4",
+    "mathjs": "^12.2.1"
+  },
+  "devDependencies": {
+    "parcel": "^2.10.3",
+    "jest": "^29.7.0",
+    "@babel/core": "^7.23.5",
+    "@babel/preset-env": "^7.23.5",
+    "@babel/preset-react": "^7.23.3"
+  }
+}
