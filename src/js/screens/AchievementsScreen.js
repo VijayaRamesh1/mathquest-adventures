@@ -116,12 +116,12 @@ const AchievementsScreen = () => {
               className={`achievement-card ${isUnlocked ? 'unlocked' : 'locked'}`}
             >
               <div className="achievement-icon">{achievement.icon}</div>
-              <div className="achievement-details">
+              <div className="achievement-content">
                 <h3>{achievement.title}</h3>
                 <p>{achievement.description}</p>
               </div>
               <div className="achievement-status">
-                {isUnlocked ? '✓' : '🔒'}
+                {isUnlocked ? '✅' : '🔒'}
               </div>
             </div>
           );
