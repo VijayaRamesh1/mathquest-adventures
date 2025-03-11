@@ -1,0 +1,189 @@
+name: Deploy static site to Pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      
+      - name: Create simple index page
+        run: |
+          mkdir -p _site
+          cat > _site/index.html << 'EOL'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>MathQuest: Adventures in Calculus</title>
+              <style>
+                  body {
+                      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                      line-height: 1.6;
+                      color: #333;
+                      margin: 0;
+                      padding: 0;
+                      background: #f5f7fa;
+                  }
+                  .container {
+                      max-width: 800px;
+                      margin: 0 auto;
+                      padding: 40px 20px;
+                  }
+                  header {
+                      background: #4267b2;
+                      color: white;
+                      padding: 20px;
+                      text-align: center;
+                      border-radius: 5px;
+                      margin-bottom: 20px;
+                  }
+                  h1 {
+                      margin: 0;
+                  }
+                  .card {
+                      background: white;
+                      border-radius: 5px;
+                      padding: 20px;
+                      margin-bottom: 20px;
+                      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                  }
+                  .feature {
+                      display: flex;
+                      align-items: flex-start;
+                      margin-bottom: 15px;
+                  }
+                  .feature-icon {
+                      font-size: 24px;
+                      margin-right: 15px;
+                      min-width: 30px;
+                      text-align: center;
+                  }
+                  .button {
+                      display: inline-block;
+                      background: #4267b2;
+                      color: white;
+                      padding: 10px 20px;
+                      border-radius: 5px;
+                      text-decoration: none;
+                      font-weight: bold;
+                      margin-top: 10px;
+                  }
+                  .button:hover {
+                      background: #365899;
+                  }
+                  footer {
+                      text-align: center;
+                      margin-top: 40px;
+                      color: #666;
+                  }
+              </style>
+          </head>
+          <body>
+              <div class="container">
+                  <header>
+                      <h1>MathQuest: Adventures in Calculus</h1>
+                      <p>An interactive educational game for learning calculus</p>
+                  </header>
+                  
+                  <div class="card">
+                      <h2>Welcome to MathQuest!</h2>
+                      <p>
+                          MathQuest is an immersive, educational gaming experience that leverages mathematical puzzles, 
+                          challenges, and interactive narratives to deeply engage users, promote learning, and encourage 
+                          continual play.
+                      </p>
+                      <p>
+                          <strong>Status:</strong> This application is currently under development. Check back soon for the 
+                          interactive version!
+                      </p>
+                      <a href="https://github.com/VijayaRamesh1/mathquest-adventures" class="button">View on GitHub</a>
+                  </div>
+                  
+                  <div class="card">
+                      <h2>Features</h2>
+                      
+                      <div class="feature">
+                          <div class="feature-icon">📚</div>
+                          <div>
+                              <h3>Interactive Story Mode</h3>
+                              <p>Progress through levels structured around a captivating narrative</p>
+                          </div>
+                      </div>
+                      
+                      <div class="feature">
+                          <div class="feature-icon">🧩</div>
+                          <div>
+                              <h3>Immersive Puzzle Environment</h3>
+                              <p>Explore a dynamic, visually rich environment</p>
+                          </div>
+                      </div>
+                      
+                      <div class="feature">
+                          <div class="feature-icon">📈</div>
+                          <div>
+                              <h3>Adaptive Difficulty</h3>
+                              <p>Game difficulty adapts based on the player's skill level</p>
+                          </div>
+                      </div>
+                      
+                      <div class="feature">
+                          <div class="feature-icon">🏆</div>
+                          <div>
+                              <h3>Gamification and Rewards</h3>
+                              <p>Points, leaderboards, and badges to encourage competition</p>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="card">
+                      <h2>Educational Content</h2>
+                      <p>MathQuest covers key calculus concepts including:</p>
+                      <ul>
+                          <li><strong>Limits and Continuity</strong></li>
+                          <li><strong>Derivatives</strong></li>
+                          <li><strong>Integrals</strong></li>
+                          <li><strong>Real-world Applications</strong></li>
+                      </ul>
+                  </div>
+                  
+                  <footer>
+                      &copy; 2025 MathQuest: Adventures in Calculus
+                  </footer>
+              </div>
+          </body>
+          </html>
+          EOL
+          
+          # Create .nojekyll file
+          touch _site/.nojekyll
+      
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: _site
+      
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v3
