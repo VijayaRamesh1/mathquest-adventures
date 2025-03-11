@@ -46,7 +46,8 @@ The game covers key calculus concepts including:
 
 ## Technical Architecture
 
-- **Frontend**: React.js, Three.js for 3D visualizations
+- **Frontend**: React.js with React Router for navigation
+- **Game Engine**: Unity WebGL integrated with React
 - **State Management**: React Context API
 - **Math Processing**: MathJS
 - **Deployment**: GitHub Pages
@@ -57,6 +58,7 @@ The game covers key calculus concepts including:
 
 - Node.js (v14 or higher)
 - npm or yarn
+- Unity 2021.3 or newer (for game development)
 
 ### Installation
 
@@ -88,21 +90,49 @@ The application will be available at `http://localhost:1234`.
 npm run build
 ```
 
+The build will be created in the `dist` directory.
+
+## Unity WebGL Integration
+
+This project uses Unity WebGL for interactive math visualizations and puzzles. To update the Unity content:
+
+1. Open the Unity project in `unity-game` directory
+2. Make your changes in Unity
+3. Build for WebGL platform
+4. Export the build to `static/unityBuild/` directory
+5. The React frontend will automatically load the Unity WebGL content
+
+## Deployment to GitHub Pages
+
+This project is set up for automatic deployment to GitHub Pages:
+
+1. Push your changes to the `main` branch
+2. GitHub Actions will automatically build and deploy to GitHub Pages
+3. The deployed site will be available at `https://[username].github.io/mathquest-adventures/`
+
+If you need to deploy manually:
+
+```
+npm run build
+git subtree push --prefix dist origin gh-pages
+```
+
 ## Project Structure
 
 ```
 mathquest-adventures/
-├── docs/                   # Documentation files
-│   ├── game-design.md      # Game design document
-│   └── technical-architecture.md # Technical architecture document
 ├── src/                    # Source files
 │   ├── css/                # CSS styles
 │   ├── js/                 # JavaScript files
 │   │   ├── components/     # React components
+│   │   │   ├── GameUI.js   # Unity WebGL integration
+│   │   │   ├── MainMenu.js # Main menu component
 │   │   ├── context/        # React context providers
 │   │   ├── data/           # Data files (levels, questions, etc.)
 │   │   └── screens/        # Screen components
 │   └── index.html          # Main HTML file
+├── static/                 # Static files that will be copied to build
+│   └── unityBuild/         # Unity WebGL build files
 ├── .github/                # GitHub workflows
 ├── package.json            # Project dependencies
 └── README.md               # This readme file
