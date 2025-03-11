@@ -1,137 +1,227 @@
-/* Base Styles */
-:root {
-  --primary-color: #4267b2;
-  --secondary-color: #5b9bd5;
-  --accent-color: #ffa500;
-  --background-color: #f0f2f5;
-  --text-color: #333;
-  --success-color: #28a745;
-  --warning-color: #ffc107;
-  --danger-color: #dc3545;
-  --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-* {
+/* Base styles */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: var(--font-family);
-  background-color: var(--background-color);
-  color: var(--text-color);
+  background-color: #f5f7fa;
+  color: #333;
   line-height: 1.6;
 }
 
-/* Game UI Elements */
+/* Game container */
 .game-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
 }
 
-.header {
+/* Header */
+.game-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
-  background-color: var(--primary-color);
+  background-color: #4267b2;
   color: white;
+  padding: 15px 20px;
   border-radius: 5px;
   margin-bottom: 20px;
 }
 
-.game-title {
+.game-header h1 {
+  margin: 0;
   font-size: 1.8rem;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.points {
+  margin-left: 20px;
   font-weight: bold;
 }
 
+/* Game Menu */
 .game-menu {
   display: flex;
-  gap: 15px;
+  background-color: #fff;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.btn {
-  padding: 8px 15px;
+.game-menu button {
+  padding: 12px 20px;
+  background: none;
   border: none;
-  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
   cursor: pointer;
+  border-radius: 0;
+  color: #4a4a4a;
+}
+
+.game-menu button:hover {
+  background-color: #f0f2f5;
+}
+
+.game-menu button.active {
+  border-bottom: 3px solid #4267b2;
+  color: #4267b2;
+}
+
+/* Main Menu */
+.main-menu {
+  text-align: center;
+  padding: 40px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.main-menu h1 {
+  margin-bottom: 10px;
+  color: #4267b2;
+}
+
+.menu-buttons {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.menu-buttons button {
+  margin-bottom: 12px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #4267b2;
+  color: white;
+}
+
+.menu-buttons button:hover {
+  background-color: #365899;
+}
+
+.menu-buttons .reset-button {
+  background-color: #f0f2f5;
+  color: #4a4a4a;
+  margin-top: 10px;
+}
+
+.menu-buttons .reset-button:hover {
+  background-color: #e4e6e9;
+}
+
+/* Game UI */
+.game-ui {
+  text-align: center;
+  padding: 20px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.unity-container {
+  margin: 20px auto;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.points-display {
+  font-size: 1.2rem;
   font-weight: bold;
-  transition: all 0.3s ease;
+  margin: 15px 0;
+  color: #4267b2;
 }
 
-.btn-primary {
-  background-color: var(--primary-color);
+/* Level Selector */
+.level-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.level-button {
+  padding: 10px 15px;
+  background-color: #f0f2f5;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.level-button.active {
+  background-color: #4267b2;
   color: white;
 }
 
-.btn-primary:hover {
-  background-color: #315499;
+.level-button.completed {
+  background-color: #e6f7e6;
+  border: 1px solid #97e897;
 }
 
-.btn-secondary {
-  background-color: var(--secondary-color);
-  color: white;
+.level-button.locked {
+  background-color: #f0f0f0;
+  color: #999;
+  cursor: not-allowed;
 }
 
-.btn-secondary:hover {
-  background-color: #4580b7;
-}
-
+/* Game content */
 .game-content {
   display: flex;
   gap: 20px;
 }
 
-.game-sidebar {
-  width: 250px;
-  background-color: white;
-  border-radius: 5px;
+.level-selector {
+  flex: 0 0 200px;
+  background: white;
   padding: 15px;
+  border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .game-main {
   flex: 1;
-  background-color: white;
-  border-radius: 5px;
+  background: white;
   padding: 20px;
+  border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.game-canvas {
-  width: 100%;
-  height: 500px;
-  background-color: #e9ecef;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Math Content Styles */
-.math-formula {
-  font-family: 'Times New Roman', Times, serif;
-  font-style: italic;
-  padding: 10px;
-  background-color: #f8f9fa;
-  border-radius: 5px;
-  margin: 10px 0;
-}
-
-.formula-highlight {
-  color: var(--accent-color);
-  font-weight: bold;
-}
-
-/* Responsive Design */
+/* Mobile responsiveness */
 @media (max-width: 768px) {
   .game-content {
     flex-direction: column;
   }
   
-  .game-sidebar {
-    width: 100%;
+  .level-selector {
+    flex: auto;
+    order: 2;
+  }
+  
+  .game-main {
+    order: 1;
+  }
+  
+  .game-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .user-info {
+    margin-top: 10px;
+  }
+  
+  .game-menu {
+    overflow-x: auto;
+    white-space: nowrap;
   }
 }
