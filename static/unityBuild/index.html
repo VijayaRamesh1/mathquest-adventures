@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>MathQuest | WebGL Build</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+    <script src="TemplateData/UnityProgress.js"></script>
+    <script src="Build/UnityLoader.js"></script>
+    <script>
+      // This is a placeholder - in a real Unity build, you'd have a gameInstance and loader
+      var unityInstance;
+      
+      window.onload = function() {
+        // Simulate a simple Unity WebGL interface for demo purposes
+        setTimeout(function() {
+          document.getElementById('loading-text').style.display = 'none';
+          document.getElementById('game-placeholder').style.display = 'flex';
+          
+          // Allow communication with React
+          window.addEventListener('message', function(event) {
+            if (event.data.type === 'SET_LEVEL') {
+              console.log('Unity received level: ' + event.data.level);
+            }
+          });
+          
+          // Example: Set points in localStorage every 10 seconds (simulating Unity game progress)
+          var points = 0;
+          setInterval(function() {
+            points += 10;
+            localStorage.setItem('Points', points);
+          }, 10000);
+        }, 2000);
+      };
+    </script>
+  </head>
+  <body>
+    <div id="unity-container" style="width: 800px; height: 600px; background-color: #282c34;">
+      <div id="loading-text" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-family: Arial;">
+        Loading Unity Game... (Placeholder)
+      </div>
+      
+      <div id="game-placeholder" style="width: 100%; height: 100%; display: none; flex-direction: column; justify-content: center; align-items: center; color: white; font-family: Arial;">
+        <h2>MathQuest: Unity WebGL Game</h2>
+        <p>This is a placeholder for the Unity WebGL build.</p>
+        <p>In production, this would be replaced with the actual Unity game.</p>
+        <div style="margin: 20px; padding: 10px; background-color: #4a4a4a; border-radius: 5px;">
+          <p>Simulate earning points: <span id="point-display">0</span></p>
+          <button onclick="localStorage.setItem('Points', parseInt(localStorage.getItem('Points') || 0) + 50); document.getElementById('point-display').textContent = localStorage.getItem('Points');">
+            Earn 50 Points
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
