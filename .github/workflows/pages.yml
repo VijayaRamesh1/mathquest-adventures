@@ -1,4 +1,4 @@
-name: Deploy GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
@@ -15,61 +15,48 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # Build and deploy React app
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
       
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
       
-      - name: Generate package-lock.json
-        run: |
-          # Create a new package-lock.json file before installing
-          npm install --package-lock-only
-          ls -la
-
       - name: Install dependencies
-        run: npm install
-      
-      - name: Build React app
-        run: npm run build
-      
-      - name: Copy Unity WebGL files from static
         run: |
-          mkdir -p dist/unityBuild
-          cp -R static/unityBuild/* dist/unityBuild/
-          mkdir -p dist/TemplateData
-          touch dist/TemplateData/style.css
-          # Make unityBuild path available through both /static/unityBuild and /unityBuild for flexibility
+          # Use npm directly without caching or package lock check
+          npm install --no-package-lock
+      
+      - name: Build application
+        run: |
+          npm run build
+          # Copy static content
+          cp static/.nojekyll dist/
+          cp -R static/unityBuild dist/
           mkdir -p dist/static
           cp -R static/unityBuild dist/static/
-          echo "Unity WebGL files copied"
-      
-      - name: Create 404.html for SPA routing
-        run: |
+          # Create SPA fallback
           cp dist/index.html dist/404.html
-          cp static/.nojekyll dist/
-          echo "SPA navigation setup complete"
       
-      - name: List build directory
-        run: ls -la dist
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
       
-      - name: Upload pages artifact
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist
-      
+
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
