@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "description": "An interactive educational game to help students learn calculus",
   "main": "index.js",
+  "homepage": "https://vijayaramesh1.github.io/mathquest-adventures",
   "scripts": {
     "start": "parcel src/index.html",
-    "build": "parcel build src/index.html",
+    "build": "parcel build src/index.html --public-url /mathquest-adventures/",
     "test": "jest"
   },
   "repository": {
@@ -24,7 +25,6 @@
   "bugs": {
     "url": "https://github.com/VijayaRamesh1/mathquest-adventures/issues"
   },
-  "homepage": "https://github.com/VijayaRamesh1/mathquest-adventures#readme",
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
