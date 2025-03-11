@@ -5,6 +5,12 @@ const GameUI = () => {
   const [points, setPoints] = useState(0);
   const { gameState } = useGameContext();
   
+  // Determine the correct path to Unity build based on environment
+  const basePath = process.env.NODE_ENV === 'production' 
+    ? '/mathquest-adventures' 
+    : '';
+  const unityPath = `${basePath}/unityBuild/index.html`;
+  
   useEffect(() => {
     // Check for Unity points updates from localStorage
     const intervalId = setInterval(() => {
@@ -22,7 +28,7 @@ const GameUI = () => {
       <h1>MathQuest</h1>
       <div className="unity-container">
         <iframe 
-          src="/static/unityBuild/index.html" 
+          src={unityPath}
           width="800" 
           height="600" 
           title="MathQuest Unity Game"
